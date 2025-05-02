@@ -32,7 +32,7 @@ export default function LottieViewer() {
       style={{
         width: "100vw",
         height: "100vh",
-        backgroundColor: "#1A1A1A"
+        backgroundColor: "#565656"
       }}
     />
   )
