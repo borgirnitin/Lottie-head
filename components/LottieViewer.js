@@ -3,6 +3,7 @@ import lottie from "lottie-web"
 
 export default function LottieViewer() {
   const containerRef = useRef()
+  const animRef = useRef(null)
 
   useEffect(() => {
     const anim = lottie.loadAnimation({
@@ -10,18 +11,26 @@ export default function LottieViewer() {
       renderer: "svg",
       loop: false,
       autoplay: false,
-      path: "https://raw.githubusercontent.com/borgirnitin/Head/main/head-compress.json"
+      path: "https://raw.githubusercontent.com/borgirnitin/Head/main/head-compress.json",
     })
 
-    const handleMouseMove = (e) => {
-      const progress = e.clientX / window.innerWidth
-      anim.goToAndStop(progress * anim.totalFrames, true)
+    animRef.current = anim
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      const windowHeight = window.innerHeight
+      const docHeight = document.body.scrollHeight
+      const scrollable = docHeight - windowHeight
+
+      const scrollProgress = Math.min(1, scrollTop / scrollable)
+      const frame = scrollProgress * anim.totalFrames
+      anim.goToAndStop(frame, true)
     }
 
-    window.addEventListener("mousemove", handleMouseMove)
+    window.addEventListener("scroll", handleScroll)
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
+      window.removeEventListener("scroll", handleScroll)
       anim.destroy()
     }
   }, [])
@@ -32,8 +41,8 @@ export default function LottieViewer() {
       style={{
         width: "100vw",
         height: "100vh",
-        overflow: "hidden",        
-        backgroundColor: "1A1A1A"
+        overflow: "hidden",
+        backgroundColor: "#1A1A1A",
       }}
     />
   )
