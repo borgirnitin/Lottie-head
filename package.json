@@ -1,5 +1,5 @@
 {
-  "name": "lottie-mouse-viewer",
+  "name": "lottie-head-fixed",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
