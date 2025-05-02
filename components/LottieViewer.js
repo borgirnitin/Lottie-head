@@ -32,6 +32,7 @@ export default function LottieViewer() {
       style={{
         width: "100vw",
         height: "100vh",
+        overflow: "hidden",        
         //backgroundColor: "#565656"
       }}
     />
