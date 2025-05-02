@@ -34,7 +34,7 @@ import { useEffect, useRef } from "react"
          height: "100vh",
          overflow: "hidden",        
          backgroundColor: "transparent"
-         backgroundColor: "1A1A1A"
+         //backgroundColor: "1A1A1A"
        }}
      />
    )
