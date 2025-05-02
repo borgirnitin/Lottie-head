@@ -17,32 +17,40 @@ export default function LottieViewer() {
     animRef.current = anim
 
     const handleScroll = () => {
-      const scrollTop = window.scrollY
+      const section = containerRef.current
+      const rect = section.getBoundingClientRect()
       const windowHeight = window.innerHeight
-      const docHeight = document.body.scrollHeight
-      const scrollable = docHeight - windowHeight
 
-      const scrollProgress = Math.min(1, scrollTop / scrollable)
-      const frame = scrollProgress * anim.totalFrames
-      anim.goToAndStop(frame, true)
+      // Section visible
+      if (rect.top <= windowHeight && rect.bottom >= 0) {
+        const visibleHeight = Math.min(windowHeight, rect.bottom) - Math.max(0, rect.top)
+        const sectionHeight = rect.height
+        const scrollProgress = 1 - (rect.bottom - visibleHeight) / sectionHeight
+
+        const frame = Math.max(0, Math.min(anim.totalFrames, scrollProgress * anim.totalFrames))
+        anim.goToAndStop(frame, true)
+      }
     }
 
     window.addEventListener("scroll", handleScroll)
+    window.addEventListener("resize", handleScroll)
 
     return () => {
       window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", handleScroll)
       anim.destroy()
     }
   }, [])
 
   return (
-    <div
+    <section
       ref={containerRef}
       style={{
         width: "100vw",
         height: "100vh",
         overflow: "hidden",
         backgroundColor: "#1A1A1A",
+        margin: "100vh 0", // Add spacing to make scrollable
       }}
     />
   )
