@@ -31,7 +31,7 @@ import { useEffect, useRef } from "react"
        ref={containerRef}
        style={{
          width: "100vw",
-         height: "200vh",
+         height: "100vh",
          overflow: "hidden",        
          backgroundColor: "transparent"
        }}
